@@ -24,7 +24,7 @@ const LoginAdmin = () => {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                navigate("/dashboard");
+                navigate("/admin");
             } else {
                 setError("ليس لديك صلاحية الدخول كأدمن.");
             }

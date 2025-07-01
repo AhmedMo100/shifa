@@ -24,7 +24,6 @@ const BookingPage = () => {
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
     const [pdfDoc, setPdfDoc] = useState(null);
-    const [pdfUrl, setPdfUrl] = useState(null);
     const [formSubmitted, setFormSubmitted] = useState(false);
 
     useEffect(() => {
@@ -69,7 +68,7 @@ const BookingPage = () => {
 
     const generatePDF = () => {
         const doc = new jsPDF();
-        doc.addFileToVFS("Amiri-Regular.ttf", window.amiriFont); // تحميل الخط
+        doc.addFileToVFS("Amiri-Regular.ttf", window.amiriFont);
         doc.addFont("Amiri-Regular.ttf", "Amiri", "normal");
         doc.setFont("Amiri");
         doc.setFontSize(14);
@@ -91,9 +90,7 @@ const BookingPage = () => {
             margin: { right: 10, left: 10 },
         });
 
-        const blob = doc.output("blob");
-        const pdfUrl = URL.createObjectURL(blob);
-        return { doc, url: pdfUrl };
+        return doc;
     };
 
     const handleSubmit = async (e) => {
@@ -123,9 +120,8 @@ const BookingPage = () => {
             setFormSubmitted(true);
 
             try {
-                const result = generatePDF();
-                setPdfDoc(result.doc);
-                setPdfUrl(result.url);
+                const generatedDoc = generatePDF();
+                setPdfDoc(generatedDoc);
             } catch (pdfError) {
                 console.error("PDF generation error:", pdfError);
                 setMessage("تم تسجيل الحجز");
